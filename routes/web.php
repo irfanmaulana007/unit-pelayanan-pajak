@@ -11,6 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index');
+Route::get('login', 'AuthController@login');
+Route::post('login', 'AuthController@doLogin');
+
+Route::get('register', 'AuthController@register');
+Route::post('register', 'AuthController@doRegister');
+
+Route::get('logout', 'AuthController@logout');
+
+
+Route::get('monitoring', 'HomeController@monitoring');
