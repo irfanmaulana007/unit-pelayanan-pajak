@@ -33,6 +33,7 @@
 							<th>NIP</th>
 							<th>Email</th>
 							<th>Position</th>
+							<th>Pending</th>
 							<th>Created At</th>
 							<th style="text-align: center;">Action</th>
 						</tr>
@@ -45,6 +46,7 @@
 								<td>{{ $value->nip }}</td>
 								<td>{{ $value->email }}</td>
 								<td>{{ $value->role }}</td>
+								<td>{{ $value->pending }}</td>
 								{{-- <td>{{ date_format($value->created_at, 'd M Y') }}</td> --}}
 								<td>{{ $value->created_at }}</td>
 								<td>

@@ -22,7 +22,7 @@ class UserController extends Controller
     public function index()
     {
         $user = DB::table('users')
-                            ->select('users.id','users.nama','users.nip','users.email','roles.nama as role','users.created_at')
+                            ->select('users.id','users.nama','users.nip','users.email','roles.nama as role','users.created_at','users.pending')
                             ->join('roles','roles.id','=','users.id_role')
                             ->get();
 

@@ -44,3 +44,8 @@ function receiveAble(id){
     $("#btnSubmit").hide();
     $("#btnReceive").show();
 }
+
+function finished(){
+    readable(true);
+    $("#btnSubmit").prop('disabled', true);
+}

@@ -6,9 +6,19 @@
 @stop
 
 @section('content')
+	<!-- ALLERT -->
+	@if(session()->has('data'))
+		@section('alert-class', 'alert-'.session('data')[1])
+		@section('alert-info', session('data')[0])
+	@endif
+	
 	<div class="row">
 		<div class="col-8 offset-2 m-t-20">
 			<div class="box">
+	         	<div class="alert @yield('alert-class') alert-dismissable fade small hidden">
+	            	<button type="button" class="close" data-dismiss="alert">&times;</button>
+	            	<strong>@yield('alert-info')</strong> @yield('alert-message')
+	        	</div>
 				<h4 class="text-center">Input Document</h4>
 				<br>
 				<form action="{{ action('DocumentController@createInput') }}" method="POST"  data-parsley-validate="true">
@@ -78,6 +88,11 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- ALLERT -->
+	@if(session()->has('data'))
+		<script>alerts()</script>
+	@endif
 @stop
 
 @section('custom-js')
@@ -137,15 +152,20 @@
 							    $("#status").html('');
 							    $("#kirim").removeAttr('required');
 							    $("#status").removeAttr('required');
+							    $("#uraian").removeAttr('required');
 	                    		receiveAble(message.id);
 	                    	}else if(message.receiveAble == "false" && message.input == "true"){
 	                    		// Passing Document
+							    $("#errDoc").html('');
     							$("form").attr("action","/transaction/passing/" + message.id);
 		                    	readable(true);
+							    $("#uraian").prop('readonly', false);
 	                    	}else if(message.receiveAble == "false" && message.input == "false"){
 	                    		// Document on ohter position
 	                    		onOtherPosition();
 		                    	readable(true);
+	                    	}else if(message.status == "Finish"){
+	                    		finished();
 	                    	}
 	                    }else{
 						    $("#errDoc").html('');

@@ -41,15 +41,16 @@
 						@foreach($document as $key => $value)
 							<?php
 								$transaction = DB::table('transactions')
-													->select('a.nama as nama_asal','b.nama as nama_tujuan')
+													->select('transactions.id','a.nama as nama_asal','b.nama as nama_tujuan')
 													->join('documents','documents.id','=','transactions.id_document')
 													->join('users as a','a.id','=','transactions.id_user')
 													->join('users as b','b.id','=','transactions.send_to')
+													->where('id_document', $value->id)
 													->orderby('transactions.id', 'desc')
 													->first();
 							?>
 
-							<tr>
+							<tr class="@if($value->id_document_status == 1)bg-success text-white @elseif($value->id_document_status == 5) bg-danger text-white @endif">
 								<td>{{ $loop->iteration }}</td>
 								<td>{{ $value->kode }}</td>
 								<td>{{ $value->nama }}</td>
@@ -63,7 +64,7 @@
 									<center>
 										<a><i class="fa fa-eye" data-id="{{ $value->id }}"></i></a>
 										<a><i class="fa fa-edit" data-id="{{ $value->id }}"></i></a>
-	        							<form action="{{ URL::to('document/' . $value->id) }}" method="POST">
+	        							<form action="{{ URL::to('document/' . $value->id) }}" id="delete-document" method="POST">
 										    {{ method_field('DELETE') }}
 										    {{ csrf_field() }}
 											<a><i class="fa fa-trash" data-id="{{ $value->id }}" data-toggle="modal" data-target="#modalDelete"></i></a>
@@ -126,7 +127,8 @@
 	      		<div class="modal-body">
 	      			<div class="row">
 	      				<div class="col-10 offset-1">
-			      			<form action="" class="form-horizontal">
+			      			<form action="" method="POST" id="edit-document" class="form-horizontal"  data-parsley-validate="true">
+							{{ csrf_field() }}
 							    <div class="form-group row">
 							    	<label class="col-form-label col-4 small">Kode Surat</label>
 							    	<div class="col-8">
@@ -208,14 +210,6 @@
 
 	                },
 	                success: function (message) {
-	                    // $("#lblKode").html(message.kode);
-	                    // $("#lblnama").html(message.nama);
-	                    // $("#lblasal").html(message.asal);
-	                    // $("#lblpemeriksa").html(message.pemeriksa);
-	                    // $("#lblperihal").html(message.perihal);
-	                    // $("#lbltanggal").html(message.tanggal);
-	                    // $("#lblstatus").html(message.status);
-
                         $("#modalShow .modal-body").html(message);
 		    			$("#modalShow").modal('show');
 	                }
@@ -224,7 +218,8 @@
 
 		    $(".fa-edit").click(function(){
 		    	id = $(this).data('id');
-				url = "{{ URL::to('find-transaction/') }}" + '/' + id;
+				url = "{{ URL::to('find-document/') }}" + '/' + id;
+		    	$("#edit-document").attr("action","/document/update/" + id)
 
 		    	$.ajax({
 					url: url,
@@ -252,7 +247,7 @@
 
 		    $(".fa-trash").click(function(){
 		    	id = $(this).data('id');
-		    	$("form").attr("action","/document/" + id)
+		    	$("#delete-document").attr("action","/document/" + id)
 		    });
 		});
 	</script>

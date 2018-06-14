@@ -53,7 +53,7 @@
 					    		<p class="text-muted">{{ $value->created_at }}</p>
 			    			</div>
 			    			<div class="col-6">
-			    				<h6>Uraian : asdf</h6>
+			    				<h6>Uraian : <b>{{ $value->uraian_hasil }}</b></h6>
 			    			</div>
 			    		</div>
 			    	</div>

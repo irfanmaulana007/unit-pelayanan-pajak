@@ -8,6 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('node_modules/font-awesome/css/font-awesome.min.css') }}">
 	@yield('custom-css')
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/styles.css') }}">
+    <meta name="csrf-token" id="meta" content="{{ csrf_token() }}">
 
 	<!-- JS - Plugin -->
 	<script src="{{ asset('node_modules/jquery/dist/jquery.min.js') }}"></script>
@@ -40,10 +41,10 @@
 		    	</li>
 				@if(Auth::user()->id_role == 1)
 			    	<li class="nav-item">
-			    		<a id="nav-statistik" class="nav-link" href="{{ URL::to('') }}">Statisik</a>
+			    		<a id="nav-statistik" class="nav-link" href="{{ URL::to('statistik') }}">Statisik</a>
 			    	</li>
 			    	<li class="nav-item">
-			    		<a id="nav-laporan" class="nav-link" href="{{ URL::to('') }}">Laporan</a>
+			    		<a id="nav-laporan" class="nav-link" href="{{ URL::to('document/laporan') }}">Laporan</a>
 			    	</li>
 				    <li id="nav-master" class="nav-item dropdown ">
 				    	<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
@@ -57,11 +58,9 @@
 				    	</div>
 				    </li>
 		    	@endif
-				@if(Auth::user()->id_role != 1)
-			    	<li class="nav-item">
-			    		<a id="nav-history" class="nav-link" href="{{ URL::to('') }}">View History</a>
-			    	</li>
-		    	@endif
+		    	<li class="nav-item">
+		    		<a id="nav-history" class="nav-link" href="{{ URL::to('view-history') }}">View History</a>
+		    	</li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
 		    	<span class="nav-item">
@@ -82,5 +81,30 @@
 
 	<!-- Custom JS - Plugin -->
 	@yield('custom-js')
+
+	<script>
+        var meta = $("#meta").attr("content");
+
+		setInterval(function() {
+			check();
+		}, 600000); // check every 30 minutes
+
+		function check(){
+			url = "{{ URL::to('transaction/check-pending-document') }}";
+	    	$.ajax({
+				url: url,
+				type: 'POST',
+				data:{
+                    _token: meta,
+				},
+                beforeSend: function () {
+
+                },
+                success: function (message) {
+                    console.log("checked");
+                }
+			});
+		}
+	</script>
 </body>
 </html>

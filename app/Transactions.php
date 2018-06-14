@@ -8,6 +8,6 @@ class Transactions extends Model
 {
     protected $table = 'transactions';
     protected $fillable = [
-    	'id_document','id_user','tanggal_proses','send_to'
+    	'id_document','id_user','tanggal_proses','send_to','uraian_hasil'
     ];
 }

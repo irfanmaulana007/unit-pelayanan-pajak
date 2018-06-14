@@ -24,7 +24,7 @@ class DocumentController extends Controller
         }else{
             $document = Documents::get();
             $document = DB::table('documents')
-                                ->select('documents.id','documents.kode','documents.nama','documents.tanggal_terima','documents.asal','documents.perihal','document_status.nama as status')
+                                ->select('documents.id','documents.kode','documents.nama','documents.tanggal_terima','documents.asal','documents.perihal','documents.id_document_status','document_status.nama as status')
                                 ->join('document_status','document_status.id','=','documents.id_document_status')
                                 ->get();
 
@@ -46,9 +46,8 @@ class DocumentController extends Controller
             $param['asal'] =  $document->asal;
             $param['perihal'] = $document->perihal;
             $param['tanggal'] = $document->tanggal_masuk;
-            $param['uraian'] = $document->uraian_hasil;
 
-            if($transaction->send_to == Auth::user()->id && $document->id_document_status == 2){
+            if($transaction->send_to == Auth::user()->id && ($document->id_document_status == 2 || $document->id_document_status == 5)){
                 $param['input'] = 'false';
                 $param['receiveAble'] =  'true';
             }else if($transaction->send_to == Auth::user()->id && $document->id_document_status == 4){
@@ -63,6 +62,38 @@ class DocumentController extends Controller
         $data = (array) $param;
 
         return response()->json($data);
+    }
+
+    public function findDocument($id){
+        $document = Documents::where('id', $id)->first();
+
+        $data = [
+            'kode' => $document->kode,
+            'nama' => $document->nama,
+            'asal' => $document->asal,
+            'perihal' => $document->perihal,
+            'tanggal' => $document->tanggal_masuk
+        ];
+
+        return response()->json($data);
+    }
+
+    public function updateDocument($id, Request $request){
+        $nama = $request->input('nama');
+        $asal = $request->input('asal');
+        $perihal = $request->input('perihal');
+        $tanggal = $request->input('tanggal');
+
+        $document = Documents::where('id', $id)->first();
+        $document->nama = $nama;
+        $document->asal = $asal;
+        $document->perihal = $perihal;
+        $document->tanggal_masuk = $tanggal;
+        $document->save();
+
+        $alert = 'Update Document Successfully !';
+        return redirect()->action('DocumentController@monitoring')->with('data',[$alert,'success']);
+
     }
 
     public function input(){
@@ -93,7 +124,6 @@ class DocumentController extends Controller
         $document->asal = $asal;
         $document->perihal = $perihal;
         $document->tanggal_masuk = $tanggal;
-        $document->uraian_hasil = $uraian;
         $document->tanggal_terima = $tanggal;
         $document->nama_pemeriksa = '';
         $document->save();
@@ -102,6 +132,7 @@ class DocumentController extends Controller
         $transaction->id_document = $document->id;
         $transaction->id_user = Auth::user()->id;
         $transaction->send_to = $kirim;
+        $transaction->uraian_hasil = $uraian;
         $transaction->save();
 
 
@@ -123,9 +154,15 @@ class DocumentController extends Controller
         $transaction->id_document = $id;
         $transaction->id_user = Auth::user()->id;
         $transaction->send_to = $request->input('kirim');
+        $transaction->uraian_hasil = $request->input('uraian');
         $transaction->save();
 
         $document = Documents::where('id', $id)->first();
+        if($request->input('status') == 1){ // 1 = document finished
+             $document->id_document_status = $request->input('status');
+        }else{
+
+        }
         $document->id_document_status = 2; // 2 = document sent
         $document->save();
 
@@ -139,6 +176,12 @@ class DocumentController extends Controller
 
         $alert = 'Delete Document Successfully !';
         return redirect()->action('DocumentController@monitoring')->with('data',[$alert,'success']);
+    }
+
+    public function laporan(){
+        $document = Documents::get();
+
+        return view('document.laporan')->with('document', $document);
     }
 
 }
