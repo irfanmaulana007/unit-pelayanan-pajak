@@ -6,6 +6,7 @@ body{
 }
 
 .m-t-20{margin-top: 20px;}
+.m-r-20{margin-right: 20px;}
 .row{margin-left: 0; margin-right: 0;}
 
 header{
@@ -20,11 +21,19 @@ header{
 }
 
 table{font-size: 14px;}
+#DataTables_Table_0_wrapper{padding: 0;}
+table.dataTable{border-collapse: collapse!important;}
+table a{color: #007bff!important; cursor: pointer;}
+table a:hover{color: #0056b3;}
+table form{display: inline;}
+.form-control{color: black;}
+.datepicker{padding: 6px 12px;}
+.datepicker-dropdown{z-index: 1021!important;}
 
 .box{
 	background-color: #fff;
 	margin: auto;
-	padding: 20px 40px;
+	padding: 30px 40px;
     box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -68,4 +77,99 @@ button.close{line-height: 15px;}
     color: #333 !important;
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3) !important;
     -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Timeline */
+/* The actual timeline (the vertical ruler) */
+.timeline {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* The actual timeline (the vertical ruler) */
+.timeline::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  background-color: black;
+  top: 0;
+  bottom: 0;
+  margin-left: -3px;
+}
+
+/* Container around content */
+.container {
+  padding: 10px 40px;
+  position: relative;
+  background-color: inherit;
+  width: 50%;
+}
+/* Full-width containers */
+  .container {
+    width: 100%;
+    padding-left: 70px;
+    padding-right: 25px;
+  }
+  
+  /* Make sure that all arrows are pointing leftwards */
+  .container::before {
+    left: 60px;
+    border: medium solid white;
+    border-width: 10px 10px 10px 0;
+    border-color: transparent white transparent transparent;
+  }
+
+/* The circles on the timeline */
+.container::after {
+  content: '';
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  right: -17px;
+  background-color: white;
+  border: 4px solid #FF9F55;
+  top: 15px;
+  border-radius: 50%;
+  z-index: 1;
+}
+.container:last-child::after {
+  border-color: green;
+}
+
+/* Fix the circle for containers on the right side */
+.right::after {
+  left: -12px;
+}
+
+/* Autocomplete */
+.autocomplete {
+  /*the container must be positioned relative:*/
+  position: relative;
+  display: inline-block;
+}
+.autocomplete-items {
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff; 
+  border-bottom: 1px solid #d4d4d4; 
+}
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color: #e9e9e9; 
+}
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: DodgerBlue !important; 
+  color: #ffffff; 
 }

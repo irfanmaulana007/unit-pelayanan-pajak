@@ -13,6 +13,7 @@
 	<script src="{{ asset('node_modules/jquery/dist/jquery.min.js') }}"></script>
 	<script src="{{ asset('node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 	<script src="{{ asset('js/alert.js') }}"></script>
+	<script src="{{ asset('js/nav.js') }}"></script>
 
 	<!-- Google Fonts - Raleway -->
 	<link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
@@ -24,25 +25,43 @@
 	
 	@if(Auth::user())
 		<nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
+			<span class="navbar-text m-r-20 text-uppercase text-white">
+			    {{ Auth::user()->nama }}
+			</span>
+
 			<ul class="navbar-nav mr-auto">
+				@if(Auth::user()->id_role == 1)
+			    	<li class="nav-item">
+			    		<a id="nav-monitoring" class="nav-link" href="{{ URL::to('monitoring') }}">Monitoring</a>
+			    	</li>
+		    	@endif
 		    	<li class="nav-item">
-		    		<a class="nav-link" href="{{ URL::to('') }}">TU</a>
+		    		<a id="nav-input" class="nav-link" href="{{ URL::to('document/input') }}">Input / Receive</a>
 		    	</li>
-		    	<li class="nav-item">
-		    		<a class="nav-link active" href="{{ URL::to('monitoring') }}">Monitoring</a>
-		    	</li>
-		    	<li class="nav-item">
-		    		<a class="nav-link" href="{{ URL::to('') }}">Input</a>
-		    	</li>
-		    	<li class="nav-item">
-		    		<a class="nav-link" href="{{ URL::to('') }}">Statisik</a>
-		    	</li>
-		    	<li class="nav-item">
-		    		<a class="nav-link" href="{{ URL::to('') }}">Laporan</a>
-		    	</li>
-		    	<li class="nav-item">
-		    		<a class="nav-link" href="{{ URL::to('') }}">Master User</a>
-		    	</li>
+				@if(Auth::user()->id_role == 1)
+			    	<li class="nav-item">
+			    		<a id="nav-statistik" class="nav-link" href="{{ URL::to('') }}">Statisik</a>
+			    	</li>
+			    	<li class="nav-item">
+			    		<a id="nav-laporan" class="nav-link" href="{{ URL::to('') }}">Laporan</a>
+			    	</li>
+				    <li id="nav-master" class="nav-item dropdown ">
+				    	<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+				        	Master
+				    	</a>
+				    	<div class="dropdown-menu">
+				        	<a class="dropdown-item" href="{{ URL::to('company') }}">Master Company</a>
+				        	<a class="dropdown-item" href="{{ URL::to('user') }}">Master User</a>
+				        	<a class="dropdown-item" href="{{ URL::to('role') }}">Master Role</a>
+				        	<a class="dropdown-item" href="{{ URL::to('document-status') }}">Master Document Status</a>
+				    	</div>
+				    </li>
+		    	@endif
+				@if(Auth::user()->id_role != 1)
+			    	<li class="nav-item">
+			    		<a id="nav-history" class="nav-link" href="{{ URL::to('') }}">View History</a>
+			    	</li>
+		    	@endif
 			</ul>
 			<ul class="navbar-nav ml-auto">
 		    	<span class="nav-item">

@@ -13,7 +13,11 @@ class HomeController extends Controller
 		if(!Auth::user()){
             return redirect()->action('AuthController@login');
         }else{
-			return redirect()->action('HomeController@monitoring');
+        	if(Auth::user()->id_role == 1){ // 1 = Tata Usaha
+				return redirect()->action('DocumentController@monitoring');
+        	}else{
+				return redirect()->action('DocumentController@input');
+        	}
         }
 	}
 

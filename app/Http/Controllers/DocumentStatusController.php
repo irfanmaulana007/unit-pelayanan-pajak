@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\DocumentStatus;
 
 class DocumentStatusController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +18,9 @@ class DocumentStatusController extends Controller
      */
     public function index()
     {
-        //
+        $documentStatus = DocumentStatus::get();
+
+        return view('document-status.index')->with('documentStatus', $documentStatus);
     }
 
     /**
@@ -23,7 +30,7 @@ class DocumentStatusController extends Controller
      */
     public function create()
     {
-        //
+        return view('document-status.create');
     }
 
     /**
@@ -34,7 +41,14 @@ class DocumentStatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $nama = $request->input('nama');
+
+        $documentStatus = new DocumentStatus;
+        $documentStatus->nama = $nama;
+        $documentStatus->save();
+
+        $alert = 'Create New Document Status Successfully !';
+        return redirect()->action('DocumentStatusController@index')->with('data',[$alert,'success']);
     }
 
     /**
@@ -56,7 +70,11 @@ class DocumentStatusController extends Controller
      */
     public function edit($id)
     {
-        //
+        $documentStatus = DocumentStatus::where('id', $id)->first();
+
+        return view('document-status.create')
+                ->with('id', $id)
+                ->with('documentStatus', $documentStatus);
     }
 
     /**
@@ -68,7 +86,14 @@ class DocumentStatusController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $nama = $request->input('nama');
+
+        $documentStatus = DocumentStatus::where('id', $id)->first();
+        $documentStatus->nama = $nama;
+        $documentStatus->save();
+
+        $alert = 'Update Document Status Successfully !';
+        return redirect()->action('DocumentStatusController@index')->with('data',[$alert,'success']);
     }
 
     /**
@@ -79,6 +104,10 @@ class DocumentStatusController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $documentStatus = DocumentStatus::where('id', $id)->first();
+        $documentStatus->delete();
+
+        $alert = 'Delete Document Status Successfully !';
+        return redirect()->action('DocumentStatusController@index')->with('data',[$alert,'success']);
     }
 }
