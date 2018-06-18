@@ -145,6 +145,11 @@ class DocumentController extends Controller
         $document->id_document_status = 4; // 4 = document received
         $document->save();
 
+        $transaction = Transactions::where('id_document', $id)->orderby('id', 'desc')->first();
+        $transaction->id_user = Auth::user()->id;
+        $transaction->send_to = Auth::user()->id;
+        $transaction->save();
+
         $alert = 'Receive Document Successfully !';
         return redirect()->action('DocumentController@input')->with('data',[$alert,'success']);
     }
@@ -161,9 +166,8 @@ class DocumentController extends Controller
         if($request->input('status') == 1){ // 1 = document finished
              $document->id_document_status = $request->input('status');
         }else{
-
+            $document->id_document_status = 2; // 2 = document sent
         }
-        $document->id_document_status = 2; // 2 = document sent
         $document->save();
 
         $alert = 'Kirim Dokumen Berhasil !';

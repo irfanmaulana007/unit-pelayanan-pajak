@@ -58,7 +58,7 @@
 								<td>{{ $value->asal }}</td>
 								<td>{{ $value->perihal }}</td>
 								<td>{{ $transaction->nama_asal }}</td>
-								<td>{{ $transaction->nama_tujuan }}</td>
+								<td>{{ ($transaction->nama_tujuan == $transaction->nama_asal) ? '-' : $transaction->nama_tujuan }}</td>
 								<td>{{ $value->status }}</td>
 								<td>
 									<center>

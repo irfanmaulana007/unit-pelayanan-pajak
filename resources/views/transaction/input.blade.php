@@ -21,7 +21,7 @@
 	        	</div>
 				<h4 class="text-center">Input Document</h4>
 				<br>
-				<form action="{{ action('DocumentController@createInput') }}" method="POST"  data-parsley-validate="true">
+				<form action="{{ action('DocumentController@createInput') }}" method="POST"  id="form" data-parsley-validate="true">
 					{{ csrf_field() }}
 					<div class="row">
 						<div class="col-6">
@@ -81,7 +81,7 @@
 				    <h6 id="errDoc" class="text-center text-danger"></h6>
 				    <br>
 				    <center>
-				    	<button type="submit" id="btnSubmit" class="btn btn-primary">Submit</button>
+				    	<button type="button" id="btnSubmit" class="btn btn-primary" onclick="checkKode()">Submit</button>
 				    	<button type="submit" id="btnReceive" class="btn btn-success" style="display: none;">Receive</button>
 				    </center>
 				</form>
@@ -169,7 +169,7 @@
 	                    	}
 	                    }else{
 						    $("#errDoc").html('');
-		                    $("#err").html('*Kode not found');
+		                    $("#err").html('*Kode tidak ditemukan');
 		                    init();
 	                    }
 	                }

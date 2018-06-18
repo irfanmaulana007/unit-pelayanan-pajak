@@ -58,9 +58,11 @@
 				    	</div>
 				    </li>
 		    	@endif
-		    	<li class="nav-item">
-		    		<a id="nav-history" class="nav-link" href="{{ URL::to('view-history') }}">View History</a>
-		    	</li>
+				@if(Auth::user()->id_role != 1)
+			    	<li class="nav-item">
+			    		<a id="nav-history" class="nav-link" href="{{ URL::to('view-history') }}">View History</a>
+			    	</li>
+		    	@endif
 			</ul>
 			<ul class="navbar-nav ml-auto">
 		    	<span class="nav-item">

@@ -48,7 +48,13 @@
 			    	<div class="content">
 			    		<div class="row">
 			    			<div class="col-6">
-					    		<h6><b>{{ $value->nama_asal }}</b> Kirim Ke <b>{{ $value->nama_tujuan }}</b></h6>
+					    		<h6>
+					    			@if($value->nama_tujuan == $value->nama_asal)
+				    					<b>{{ $value->nama_asal }}</b> menerima dokumen
+				    				@else
+				    					<b>{{ $value->nama_asal }}</b> Kirim Ke <b>{{ $value->nama_tujuan }}</b>
+									@endif
+						    	</h6>
 					    		{{-- <p class="text-muted">{{ date_format($value->created_at, 'D, d/M/Y') }}</p> --}}
 					    		<p class="text-muted">{{ $value->created_at }}</p>
 			    			</div>
