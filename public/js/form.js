@@ -66,7 +66,7 @@ function onOtherPosition(){
 }
 
 function init(){
-    $("form").attr("action","/transaction/input");
+    $("form").attr("action","/document/input");
     $("#btnSubmit").prop('disabled', false);
     readable(false);
     resetForm();

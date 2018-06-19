@@ -66,8 +66,6 @@ class TransactionController extends Controller
                             ->where('transactions.id_document', $id)
                             ->get();
 
-        // $detail = Transactions::get();
-
         return view('partial.detail-monitoring')
         		->with('transaction', $transaction)
         		->with('detail', $detail);

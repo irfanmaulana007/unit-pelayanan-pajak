@@ -158,7 +158,11 @@ class DocumentController extends Controller
         $transaction = new Transactions();
         $transaction->id_document = $id;
         $transaction->id_user = Auth::user()->id;
-        $transaction->send_to = $request->input('kirim');
+        if($request->input('status') == 1){ // 1 = document finished
+            $transaction->send_to = 33; // 33 = menandakan udah finish
+        }else{
+            $transaction->send_to = $request->input('kirim');
+        }
         $transaction->uraian_hasil = $request->input('uraian');
         $transaction->save();
 
@@ -175,6 +179,8 @@ class DocumentController extends Controller
     }
 
     public function deleteDocument($id){
+        $transaction = Transactions::where('id_document', $id)->delete();
+
         $document = Documents::where('id', $id)->first();
         $document->delete();
 
@@ -183,7 +189,7 @@ class DocumentController extends Controller
     }
 
     public function laporan(){
-        $document = Documents::get();
+        $document = Documents::where('id_document_status', 1)->get();
 
         return view('document.laporan')->with('document', $document);
     }

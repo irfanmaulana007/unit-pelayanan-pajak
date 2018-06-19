@@ -51,6 +51,8 @@
 					    		<h6>
 					    			@if($value->nama_tujuan == $value->nama_asal)
 				    					<b>{{ $value->nama_asal }}</b> menerima dokumen
+				    				@elseif($value->send_to == 33)
+				    					<b>{{ $value->nama_asal }}</b> menyelesaikan dokumen
 				    				@else
 				    					<b>{{ $value->nama_asal }}</b> Kirim Ke <b>{{ $value->nama_tujuan }}</b>
 									@endif

@@ -54,19 +54,19 @@
 						    	<input type="text" id="tanggal" class="form-control datepicker" placeholder="yyyy-mm-dd" name="tanggal" required autocomplete="off">
 						    </div>
 						    <div class="form-group">
-						    	<label class="small">Kirim Ke</label>
-						    	<select name="kirim" id="kirim" class="form-control" required>
-						    		<option value="0" selected disabled>- Select Position -</option>
-						    		@foreach($user as $key => $value)
+						    	<label class="small">Status Surat</label>
+						    	<select name="status" id="status" class="form-control" required>
+						    		<option value="0" selected disabled>- Select Status -</option>
+						    		@foreach($documentStatus as $key => $value)
 										<option value="{{ $value->id }}">{{ $value->nama }}</option>
 						    		@endforeach
 						    	</select>
 						    </div>
 						    <div class="form-group">
-						    	<label class="small">Status Surat</label>
-						    	<select name="status" id="status" class="form-control" required>
-						    		<option value="0" selected disabled>- Select Status -</option>
-						    		@foreach($documentStatus as $key => $value)
+						    	<label class="small">Kirim Ke</label>
+						    	<select name="kirim" id="kirim" class="form-control" required>
+						    		<option value="0" selected disabled>- Select Position -</option>
+						    		@foreach($user as $key => $value)
 										<option value="{{ $value->id }}">{{ $value->nama }}</option>
 						    		@endforeach
 						    	</select>
@@ -115,6 +115,16 @@
 		});
         
         var meta = $("#meta").attr("content");
+
+        $("#status").change(function(){
+        	if($(this).val() == 1){
+        		$("#kirim").prop("required", false);
+        		$("#kirim").prop("disabled", true);
+        	}else{
+        		$("#kirim").prop("required", true);
+        		$("#kirim").prop("disabled", false);
+        	}
+        });
 
 		$("#btn-search").click(function(){
 			kode = $("#kode").val();

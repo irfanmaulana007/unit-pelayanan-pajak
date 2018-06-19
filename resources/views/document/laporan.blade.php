@@ -10,7 +10,7 @@
 	<div class="row">
 		<div class="col-8 offset-2 m-t-20">
 			<div class="box">
-				<h4 class="text-center">View History</h4>
+				<h4 class="text-center">Laporan</h4>
 				<br><br>
 				<table class="table table-striped data-table">
 					<thead>
@@ -64,7 +64,7 @@
 			      extend: 'excel',
 			      text: 'Export excel',
 			      className: 'exportExcel',
-			      filename: 'Export excel',
+			      filename: 'Laporan dokumen',
 			      exportOptions: {
 			        modifier: {
 			          page: 'all'

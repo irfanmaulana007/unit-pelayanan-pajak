@@ -30,6 +30,7 @@ table form{display: inline;}
 .form-control{color: black;}
 .datepicker{padding: 6px 12px;}
 .datepicker-dropdown{z-index: 1060!important;}
+.modal{color: #000;}
 
 .box{
 	background-color: #fff;
